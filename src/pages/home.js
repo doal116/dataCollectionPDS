@@ -68,6 +68,104 @@ function Home() {
             cursorMoverRight(sec, index);
         }
     }
+    const labData = [
+        { type: 'low wage', number: 1 },
+        { type: 'low wage', number: 2 },
+        { type: 'low wage', number: 3 },
+        { type: 'low wage', number: 4 },
+        { type: 'High wage', number: 5 },
+        { type: 'low wage', number: 6 },
+        { type: 'low wage', number: 7 },
+        { type: 'low wage', number: 8 },
+        { type: 'low wage', number: 9 },
+        { type: 'High wage', number: 10 },
+        { type: 'low wage', number: 11 },
+        { type: 'High wage', number: 12 },
+        { type: 'High wage', number: 13 },
+        { type: 'low wage', number: 14 },
+        { type: 'low wage', number: 15 },
+        { type: 'low wage', number: 16 },
+        { type: 'High wage', number: 17 },
+        { type: 'low wage', number: 18 },
+        { type: 'High wage', number: 19 },
+        { type: 'low wage', number: 20 },
+        { type: 'High wage', number: 21 },
+        { type: 'High wage', number: 22 },
+        { type: 'High wage', number: 23 },
+        { type: 'low wage', number: 24 },
+        { type: 'low wage', number: 25 },
+        { type: 'low wage', number: 26 },
+        { type: 'low wage', number: 27 },
+        { type: 'High wage', number: 28 },
+        { type: 'low wage', number: 29 },
+        { type: 'High wage', number: 30 },
+        { type: 'High wage', number: 31 },
+        { type: 'High wage', number: 32 },
+        { type: 'low wage', number: 33 },
+        { type: 'low wage', number: 34 },
+        { type: 'High wage', number: 35 },
+        { type: 'low wage', number: 36 },
+        { type: 'High wage', number: 37 },
+        { type: 'low wage', number: 38 },
+        { type: 'High wage', number: 39 },
+        { type: 'High wage', number: 40 },
+        { type: 'High wage', number: 41 },
+        { type: 'low wage', number: 42 },
+        { type: 'low wage', number: 43 },
+        { type: 'High wage', number: 44 },
+        { type: 'low wage', number: 45 },
+        { type: 'low wage', number: 46 },
+        { type: 'low wage', number: 47 },
+        { type: 'High wage', number: 48 },
+        { type: 'low wage', number: 49 },
+        { type: 'High wage', number: 50 },
+        { type: 'low wage', number: 51 },
+        { type: 'low wage', number: 52 },
+        { type: 'low wage', number: 53 },
+        { type: 'High wage', number: 54 },
+        { type: 'low wage', number: 55 },
+        { type: 'High wage', number: 56 },
+        { type: 'low wage', number: 57 },
+        { type: 'low wage', number: 58 },
+        { type: 'low wage', number: 59 },
+        { type: 'High wage', number: 60 },
+        { type: 'low wage', number: 61 },
+        { type: 'High wage', number: 62 },
+        { type: 'High wage', number: 63 },
+        { type: 'low wage', number: 64 },
+        { type: 'High wage', number: 65 },
+        { type: 'High wage', number: 66 },
+        { type: 'High wage', number: 67 },
+        { type: 'High wage', number: 68 },
+        { type: 'High wage', number: 69 },
+        { type: 'low wage', number: 70 },
+        { type: 'low wage', number: 71 },
+        { type: 'low wage', number: 72 },
+        { type: 'High wage', number: 73 },
+        { type: 'High wage', number: 74 },
+        { type: 'low wage', number: 75 },
+        { type: 'High wage', number: 76 },
+        { type: 'low wage', number: 77 },
+        { type: 'High wage', number: 78 },
+        { type: 'low wage', number: 79 },
+        { type: 'High wage', number: 80 },
+        { type: 'low wage', number: 81 },
+        { type: 'low wage', number: 82 },
+        { type: 'low wage', number: 83 },
+        { type: 'High wage', number: 84 },
+        { type: 'High wage', number: 85 },
+        { type: 'low wage', number: 85 },
+        { type: 'low wage', number: 86 },
+        { type: 'low wage', number: 87 },
+        { type: 'low wage', number: 88 },
+        { type: 'High wage', number: 89 },
+        { type: 'High wage', number: 90 },
+        { type: 'High wage', number: 91 },
+        { type: 'High wage', number: 92 },
+        { type: 'low wage', number: 93 },
+        { type: 'High wage', number: 94 },
+        { type: 'High wage', number: 96 },
+    ];
     //----------------------------------------------//
     //-------------upper sec states-----------------//
     //----------------------------------------------//
@@ -75,14 +173,14 @@ function Home() {
     const [labNum, setLabNum] = useState('');
     const handleLabNum = (e) => {
         let cellVal = e.target.value;
-        if (parseInt(cellVal) > 99) cellVal = 99;
-        if (parseInt(cellVal) < 0) cellVal = 0;
-        if (cellVal.length === 2) {
-            generalMovementTwoChar(cellVal, 0, 'Worder ID')
-        }
+        if (parseInt(cellVal) > 96) cellVal = 99;
+        if (parseInt(cellVal) < 1) cellVal = 1;
+        // if (cellVal.length === 2) {
+        //     generalMovementTwoChar(cellVal, 0, 'Worder ID')
+        // }
         if (cellVal !== '') cellVal = parseInt(cellVal);
-
-        setLabNum(cellVal);
+        handleHighWage(cellVal);
+        if (cellVal.toString().length < 3) setLabNum(cellVal);
     }
     const [workerId, setWorkerId] = useState('');
     const handleWorkerId = (e) => {
@@ -105,12 +203,17 @@ function Home() {
     }
 
     const [highWage, setHighWage] = useState('');
-    const handleHighWage = (e) => {
-        let cellVal = e.target.value;
-        if (parseInt(cellVal) > 1) cellVal = 1;
-        if (parseInt(cellVal) < 0) cellVal = 0;
-        if (cellVal !== '') cellVal = parseInt(cellVal);
-        setHighWage(cellVal);
+    const handleHighWage = (cellVal) => {
+        let finalVal = '';
+
+        labData.forEach(({ type, number }) => {
+            if (number === cellVal) {
+                if (type === 'High wage') finalVal = 1;
+                else finalVal = 0;
+            }
+        });
+
+        setHighWage(finalVal);
     }
     //----------------------------------------------//
     //---------------lab sec states ----------------//
@@ -269,13 +372,9 @@ function Home() {
                         onChange={handleTime}
                     >
                     </input>
-                    <input
-                        placeholder="High Wage (0/1)"
-                        type="number"
-                        value={highWage}
-                        onChange={handleHighWage}
-                    >
-                    </input>
+                    <div id="HighWage">
+                        High wage: {highWage}
+                    </div>
                 </div>
                 <h2>Lab Details</h2>
                 <div className="inputFieldLab">
