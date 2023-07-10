@@ -358,28 +358,31 @@ function Home() {
     }
     useEffect(() => {
         const storedText = localStorage.getItem('psac');
-        const splitedText = storedText.split(',');
+        if (storedText) {
+            const splitedText = storedText.split(',');
 
-        const textNum = [];
-        const row = [];
-        splitedText.forEach((elem, i) => {
-            if (/^\d+$/.test(elem)) row.push(parseInt(elem));
-            else row.push(elem);
-            if ((i + 1) % 12 === 0) {
-                textNum.push([...row]);
-                row.length = 0;
-            }
-        });
+            const textNum = [];
+            const row = [];
+            splitedText.forEach((elem, i) => {
+                if (/^\d+$/.test(elem)) row.push(parseInt(elem));
+                else row.push(elem);
+                if ((i + 1) % 12 === 0) {
+                    textNum.push([...row]);
+                    row.length = 0;
+                }
+            });
 
 
-        let csvFormat = 'medicalLabID,patientID,workerID,highWage,time,date,bioTotal,lifestyleTotal,medTotal,bloodTotal,totalRisk,Rec\n';
-        textNum.forEach((row, i) => {
-            csvFormat += row.join(',');
-            csvFormat += '\n';
-        });
-        setCsv(csvFormat);
-        setDataTable(textNum);
-    }, [])
+            let csvFormat = 'medicalLabID,patientID,workerID,highWage,time,date,bioTotal,lifestyleTotal,medTotal,bloodTotal,totalRisk,Rec\n';
+            textNum.forEach((row, i) => {
+                csvFormat += row.join(',');
+                csvFormat += '\n';
+            });
+            setCsv(csvFormat);
+            setDataTable(textNum);
+        }
+
+    }, [dataTable])
     return (
         <div className="Home">
             <form className="workerInput" onSubmit={handleSubmit}>
