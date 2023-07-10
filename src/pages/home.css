@@ -20,6 +20,19 @@
   -moz-column-gap: 20px;
        column-gap: 20px;
 }
+.Home .workerInput .inputFields .reset {
+  padding: 20px;
+  background-color: rgba(222, 67, 11, 0.8666666667);
+  color: white;
+  border-radius: 10px;
+  font-size: 20px;
+  box-shadow: 1px 1px 10px rgb(113, 113, 113);
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  height: -moz-fit-content;
+  height: fit-content;
+}
 .Home .workerInput .inputFields input {
   border: 2px solid gray;
   border-radius: 10px;
@@ -52,9 +65,8 @@
   border: 2px solid gray;
   border-radius: 10px;
 }
-.Home .workerInput button {
-  height: 50px;
-  width: 100px;
+.Home .workerInput #button {
+  padding: 15px 25px 15px 25px;
   border-radius: 10px;
   border: none;
   box-shadow: 1px 1px 5px black;
@@ -68,19 +80,6 @@
   display: flex;
   -moz-column-gap: 10px;
        column-gap: 10px;
-}
-.Home .viewer .reset {
-  padding: 20px;
-  background-color: rgba(222, 67, 11, 0.8666666667);
-  color: white;
-  border-radius: 10px;
-  font-size: 20px;
-  box-shadow: 1px 1px 10px rgb(113, 113, 113);
-  font-weight: bold;
-  cursor: pointer;
-  text-decoration: none;
-  height: -moz-fit-content;
-  height: fit-content;
 }
 .Home .viewer .export {
   padding: 20px;

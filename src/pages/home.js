@@ -1,5 +1,5 @@
 import "./home.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CSVLink } from 'react-csv';
 function Home() {
     const cursorMoverRight = (sec, index) => {
@@ -11,14 +11,14 @@ function Home() {
         const previousField = document.getElementById(sec.split(' ').join('') + (index - 1).toString());
         if (previousField !== null) previousField.select();
     }
-    const generalMovement = (cellVal, index, sec) => {
-        if (cellVal.length === 1) cursorMoverRight(sec, index);
-        if (cellVal === '') cursorMoverLeft(sec, index);
-    }
-    const generalMovementTwoChar = (cellVal, index, sec) => {
-        if (cellVal.length === 2) cursorMoverRight(sec, index);
-        if (cellVal === '') cursorMoverLeft(sec, index);
-    }
+    // const generalMovement = (cellVal, index, sec) => {
+    //     if (cellVal.length === 1) cursorMoverRight(sec, index);
+    //     if (cellVal === '') cursorMoverLeft(sec, index);
+    // }
+    // const generalMovementTwoChar = (cellVal, index, sec) => {
+    //     if (cellVal.length === 2) cursorMoverRight(sec, index);
+    //     if (cellVal === '') cursorMoverLeft(sec, index);
+    // }
     const newData = (cellVal, index, prevArr) => {
         const newArr = [...prevArr];
         if (cellVal === '') newArr[index] = '';
@@ -35,9 +35,6 @@ function Home() {
     }
     const valueInputField = (sec, index) => {
         switch (sec) {
-            case 'Patient ID':
-                if (patientID[index] === '') return '';
-                return patientID[index];
             case 'Bio Total':
                 if (bioTotal[index] === '') return '';
                 return bioTotal[index]
@@ -61,13 +58,27 @@ function Home() {
         }
     }
     const moveToField = (event, sec, index) => {
+        const secList = [
+            'Patient ID', 'Bio Total',
+            'Life Style Total', 'Med Total',
+            'Blood Total', 'Total Risks',
+            'Rec'
+        ]
         if (event.keyCode === 37) {
             cursorMoverLeft(sec, index);
         }
-        if (event.keyCode === 39) {
+        if (event.keyCode === 39 || event.keyCode === 13) {
             cursorMoverRight(sec, index);
+            if (index === 3 && sec !== 'Rec') {
+                secList.forEach((elem, i) => {
+                    if (elem === sec) {
+                        cursorMoverRight(secList[i + 1], -1);
+                    }
+                })
+            }
         }
     }
+
     const labData = [
         { type: 'low wage', number: 1 },
         { type: 'low wage', number: 2 },
@@ -215,43 +226,45 @@ function Home() {
 
         setHighWage(finalVal);
     }
+
+
     //----------------------------------------------//
     //---------------lab sec states ----------------//
     //----------------------------------------------//
 
-    const [patientID, setPatientID] = useState(['', '', '', '']);
-    const handlePatientID = (e, index) => {
-        let cellVal = e.target.value;
-        if (parseInt(cellVal) > 4) cellVal = 4;
-        if (parseInt(cellVal) < 0) cellVal = 0;
-        generalMovement(cellVal, index, 'Patient ID');
-        setPatientID(newData(cellVal, index, patientID));
-    }
+
     const [bioTotal, setBioTotal] = useState(['', '', '', '']);
     const handleBioTotal = (e, index) => {
         let cellVal = e.target.value;
-        generalMovement(cellVal, index, 'Bio Total');
-        setBioTotal(newData(cellVal, index, bioTotal));
+        const newArr = [...bioTotal];
+        newArr[index] = cellVal;
+        //generalMovement(cellVal, index, 'Bio Total');
+        setBioTotal(newArr);
     }
     const [lifeStyleTotal, setLifeStyleTotal] = useState(['', '', '', '']);
     const handleLifeStyleTotal = (e, index) => {
         let cellVal = e.target.value;
-        generalMovement(cellVal, index, 'Life Style Total');
-        setLifeStyleTotal(newData(cellVal, index, lifeStyleTotal));
+        const newArr = [...lifeStyleTotal];
+        newArr[index] = cellVal;
+        //generalMovement(cellVal, index, 'Life Style Total');
+        setLifeStyleTotal(newArr);
     }
     const [medTotal, setMedTotal] = useState(['', '', '', '']);
     const handleMedTotal = (e, index) => {
         let cellVal = e.target.value;
         const newArr = [...medTotal];
         newArr[index] = cellVal;
-        generalMovementTwoChar(cellVal, index, 'Med Total');
+        //generalMovementTwoChar(cellVal, index, 'Med Total');
         setMedTotal(newArr);
     }
     const [bloodTotal, setBloodTotal] = useState(['', '', '', '']);
     const handleBloodTotal = (e, index) => {
+
         let cellVal = e.target.value;
-        generalMovement(cellVal, index, 'Blood Total');
-        setBloodTotal(newData(cellVal, index, bloodTotal));
+        const newArr = [...bloodTotal];
+        newArr[index] = cellVal;
+        //generalMovement(cellVal, index, 'Blood Total');
+        setBloodTotal(newArr);
     }
     const [totalRisk, setTotalRisk] = useState(['', '', '', '']);
     const handleTotalRisk = (e, index) => {
@@ -260,14 +273,14 @@ function Home() {
         newArr[index] = cellVal;
 
         setTotalRisk(newArr);
-        generalMovementTwoChar(cellVal, index, 'Total Risks')
+        //generalMovementTwoChar(cellVal, index, 'Total Risks')
     }
     const [recommendation, setRecommendation] = useState(['', '', '', '']);
     const handleRecommendation = (e, index) => {
         let cellVal = e.target.value;
         if (parseInt(cellVal) > 2) cellVal = 2;
         if (parseInt(cellVal) < 0) cellVal = 0;
-        generalMovement(cellVal, index, 'Rec');
+        //generalMovement(cellVal, index, 'Rec');
         setRecommendation(newData(cellVal, index, recommendation));
     }
     //----------------------------------------------//
@@ -276,8 +289,8 @@ function Home() {
     const [dataTable, setDataTable] = useState([]);
     const [csv, setCsv] = useState('');
     const handleReset = () => {
+        localStorage.removeItem('psac');
         setLabNum('');
-        setPatientID(['', '', '', '']);
         setWorkerId('');
         setHighWage('');
         setTime('');
@@ -295,6 +308,7 @@ function Home() {
         e.preventDefault();
         const dataForCsv = [...dataTable];
 
+        const patientID = [1, 2, 3, 4];
         [0, 1, 2, 3].forEach((elm, i) => {
             let timeFormat = time.split(':').join('h');
             timeFormat += 'min';
@@ -306,7 +320,6 @@ function Home() {
             ]);
         });
         setLabNum('');
-        setPatientID(['', '', '', '']);
         setWorkerId('');
         setHighWage('');
         setTime('');
@@ -317,13 +330,18 @@ function Home() {
         setBloodTotal(['', '', '', '']);
         setTotalRisk(['', '', '', '']);
         setRecommendation(['', '', '', '']);
-
+        //medicalLabID,patientID,workerID,highWage,time,date,bioTotal,lifestyleTotal,medTotal,bloodTotal,totalRisk,Rec\n
         let csvFormat = 'medicalLabID,patientID,workerID,highWage,time,date,bioTotal,lifestyleTotal,medTotal,bloodTotal,totalRisk,Rec\n';
-
+        let textFormt = '';
         dataForCsv.forEach((row, i) => {
+            textFormt += row.join(',');
+            textFormt += ',';
             csvFormat += row.join(',');
             csvFormat += '\n';
         });
+
+        localStorage.setItem('psac', textFormt);
+
         setCsv(csvFormat);
         setDataTable(dataForCsv);
     }
@@ -338,12 +356,37 @@ function Home() {
         const formattedDate = `DATE${year}-${month}-${day}TIME${hours}:${minutes}:${seconds}`;
         return formattedDate;
     }
+    useEffect(() => {
+        const storedText = localStorage.getItem('psac');
+        const splitedText = storedText.split(',');
 
+        const textNum = [];
+        const row = [];
+        splitedText.forEach((elem, i) => {
+            if (/^\d+$/.test(elem)) row.push(parseInt(elem));
+            else row.push(elem);
+            if ((i + 1) % 12 === 0) {
+                textNum.push([...row]);
+                row.length = 0;
+            }
+        });
+
+
+        let csvFormat = 'medicalLabID,patientID,workerID,highWage,time,date,bioTotal,lifestyleTotal,medTotal,bloodTotal,totalRisk,Rec\n';
+        textNum.forEach((row, i) => {
+            csvFormat += row.join(',');
+            csvFormat += '\n';
+        });
+        setCsv(csvFormat);
+        setDataTable(textNum);
+    }, [])
     return (
         <div className="Home">
             <form className="workerInput" onSubmit={handleSubmit}>
                 <h2>Worker Details:</h2>
+
                 <div className="inputFields">
+                    <div className="reset" onClick={handleReset}>ResetBoard</div>
                     <input
                         placeholder="Lab Number"
                         type="number"
@@ -380,7 +423,6 @@ function Home() {
                 <div className="inputFieldLab">
                     {
                         [
-                            'Patient ID',
                             'Bio Total',
                             'Life Style Total',
                             'Med Total',
@@ -420,9 +462,6 @@ function Home() {
                                                             case 'Rec':
                                                                 handleRecommendation(e, j);
                                                                 break;
-                                                            case 'Patient ID':
-                                                                handlePatientID(e, j);
-                                                                break;
                                                             default:
                                                                 console.log('Error in switch case sec.');
                                                                 break;
@@ -436,11 +475,11 @@ function Home() {
                                 </label>)
                     }
                 </div>
-                <button>Add</button>
+                <div id="button" onClick={handleSubmit}>Add</div>
             </form>
 
             <div className="viewer">
-                <div className="reset" onClick={handleReset}>ResetBoard</div>
+
                 <table >
                     <thead>
                         <tr>
