@@ -165,7 +165,6 @@ function Home() {
         { type: 'low wage', number: 83 },
         { type: 'High wage', number: 84 },
         { type: 'High wage', number: 85 },
-        { type: 'low wage', number: 85 },
         { type: 'low wage', number: 86 },
         { type: 'low wage', number: 87 },
         { type: 'low wage', number: 88 },
