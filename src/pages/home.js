@@ -378,8 +378,8 @@ function Home() {
                 csvFormat += row.join(',');
                 csvFormat += '\n';
             });
-            setCsv(csvFormat);
-            setDataTable(textNum);
+            if(csv==='') setCsv(csvFormat);
+            if(dataTable.length === 0)setDataTable(textNum);
         }
 
     }, [dataTable])
