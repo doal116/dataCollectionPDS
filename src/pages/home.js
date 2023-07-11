@@ -175,6 +175,7 @@ function Home() {
         { type: 'High wage', number: 92 },
         { type: 'low wage', number: 93 },
         { type: 'High wage', number: 94 },
+        { type: 'low wage', number: 95 },
         { type: 'High wage', number: 96 },
     ];
     //----------------------------------------------//
@@ -378,8 +379,8 @@ function Home() {
                 csvFormat += row.join(',');
                 csvFormat += '\n';
             });
-            if(csv==='') setCsv(csvFormat);
-            if(dataTable.length === 0)setDataTable(textNum);
+            if (csv === '') setCsv(csvFormat);
+            if (dataTable.length === 0) setDataTable(textNum);
         }
 
     }, [dataTable])
