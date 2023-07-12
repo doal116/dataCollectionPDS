@@ -382,14 +382,15 @@ function Home() {
             if (dataTable.length === 0) setDataTable(textNum);
         }
 
-    }, [dataTable])
+    }, [dataTable,csv])
     return (
         <div className="Home">
             <form className="workerInput" onSubmit={handleSubmit}>
+                <div className="reset" onClick={handleReset}>ResetBoard</div>
                 <h2>Worker Details:</h2>
 
                 <div className="inputFields">
-                    <div className="reset" onClick={handleReset}>ResetBoard</div>
+
                     <input
                         placeholder="Lab Number"
                         type="number"

@@ -14,13 +14,7 @@
   justify-items: center;
   row-gap: 10px;
 }
-.Home .workerInput .inputFields {
-  display: flex;
-  flex-direction: row;
-  -moz-column-gap: 20px;
-       column-gap: 20px;
-}
-.Home .workerInput .inputFields .reset {
+.Home .workerInput .reset {
   padding: 20px;
   background-color: rgba(222, 67, 11, 0.8666666667);
   color: white;
@@ -32,6 +26,12 @@
   text-decoration: none;
   height: -moz-fit-content;
   height: fit-content;
+}
+.Home .workerInput .inputFields {
+  display: flex;
+  flex-direction: row;
+  -moz-column-gap: 20px;
+       column-gap: 20px;
 }
 .Home .workerInput .inputFields input {
   border: 2px solid gray;
